@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TACP Test Bank</title>
+    <script src="testQuestionsA.json"></script>
+    <script src="scripts/jquery-3.3.1.js"></script>
+</head>
+
+<body>
+	<script>
+		window.onload = function() {
+			for (var x = 0; x < 92; x++)
+			$("#myTable").find("tbody")
+				.append($('<tr>')
+					.append($('<td>')
+						.text(questions[x].questionNumber + ". " + questions[x].questionText)
+					)
+				)
+				.append($('<tr>')
+					.append($('<td>')
+						.text(questions[x].answerA)
+					)
+				)
+				.append($('<tr>')
+					.append($('<td>')
+						.text(questions[x].answerB)
+					)
+				)
+				.append($('<tr>')
+					.append($('<td>')
+						.text(questions[x].answerC)
+					)
+				)
+				.append($('<tr>')
+					.append($('<td>')
+						.text(questions[x].answerD)
+					)
+				)
+				.append($('<tr>')
+					.append($('<td>')
+						.text("\\ ")
+					)
+				);
+		};
+	</script>
+	<table id="myTable" style="width:800px">
+    	<tbody>
+        	<tr>
+            	<td style="text-align:center; font-weight:bold">Test Bank for TACP Craftsman</td>
+            </tr>
+            <tr>
+            	<td>&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

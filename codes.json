@@ -1,0 +1,1 @@
+var LMSTool = { "keys": "6568777378168265894948525075",	"user": "diag",	"passW": "adminRay1042j" };

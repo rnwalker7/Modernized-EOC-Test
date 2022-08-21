@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>VersionA</title>
+    
+    <link rel="stylesheet" type="text/css" href="scripts/testStyle.css" />
+    <link rel="stylesheet" type="text/css" href="scripts/bootstrap.css" />
+    <script src="../../scripts/APIWrapper.js"></script>
+    <script src="../../scripts/SCOFunctions.js"></script>
+    <script src="scripts/jquery-3.3.1.js"></script>
+    <script src="scripts/bootstrap.bundle.js"></script>
+    <script src="../courseinfo.js"></script>
+    <script src="../codes.js"></script>
+    <script src="testQuestionsA.js"></script>
+    
+</head>
+
+<body>
+	<!-- Main Canvas ->
+    <canvas id="myStage" width="100%" height="100%">
+	   	<img id="bgimage" src="images/background.jpg" alt="Background" />
+        <img id="img_BG" src="images/img_BG.png" alt="Survey Background" />
+        <img id="img_dialogBox" src="images/img_dialogBox.png" alt="Dialog Box Background" />
+        <img id="img_colorbar1" src="images/img_colorbar.png" alt="Header Bar" />
+        <img id="img_colorbar2" src="images/img_colorbar2.png" alt="Footer Bar" />
+    </canvas>
+    -->
+    <div id="myStage" class="container-fluid" style="height:100vh; background-image:url('images/background.jpg'); background-size:100% 100%">
+    	<img id="img_BG2" src="images/img_bg2.png" alt="Login Overlay" />
+        <img id="img_BG" src="images/img_BG.png" alt="Survey Background" />
+        <img id="img_dialogBox" src="images/img_dialogBox.png" alt="Dialog Box Background" />
+        <img id="img_colorbar1" src="images/img_colorbar.png" alt="Header Bar" />
+        <img id="img_colorbar2" src="images/img_colorbar2.png" alt="Footer Bar" /> 
+        <div id="txtLogin1">
+        	You must complete this Version Test with a passing score to gain access to your Certificate.<br />
+            If you exit this Version Test after your Test Administrator has logged you in and before its<br />
+            completion, it will be counted as a FAILURE.<br /><br />
+            If you have already attempted this Version Test or have completed this Block Exam,<br />
+	        please exit now.
+        </div>
+        <div id="txtLogin2">
+            To Login and begin testing, the Test Administrator MUST enter the<br />
+            ADMINISTRATOR PASSWORD.
+        </div>
+        <div id="txtLogin3">Student Name:<br /><br /><br />Enter Password:</div>
+        <div id="txtLogin4"></div>
+        <img id="imgStudName" src="images/textFieldBG.png" style="width:37.5%; height:6%; position:absolute; left:31.25%; top:36.33%; display:none; z-index:3" />
+        <img id="imgLoginPasswd" src="images/textFieldBG.png" style="width:37.5%; height:6%; position:absolute; left:31.25%; top:46.33%; display:none; z-index:3" />
+        <input type="image" id="btnStart" src="images/Start.png" style="width:13.5%; height:6%; position:absolute; left:44.5%;; top:53.3%; z-index:2; display:none">
+	    <input id="btnLogin" type="image" src="images/img_Login.png" style="position:absolute; left:56.88%; top:54.17%; z-index:4; display:none">
+
+    </div>
+    <!-- Used for the Final Popup docs ->
+    <canvas id="finalDocs" width="560" height="600" style="position:absolute; top:8px; left:8px; display:none">
+    	<img id="certificate" src="images/certificateblank.png" alt="Completion Certificate" />
+    </canvas>
+    
+    <!-- Used for LMS Tool ->
+    <canvas id="LMSTool" width="800" height="600" style="position:absolute; top:8px; left:8px; display:none"></canvas>
+    
+    <!-- Used for the login script -->
+    <div id="txtStudentName"></div>
+    <input type="password" id="initPassword" style="position:absolute; left:32.85%; top:48.2%; width:34.38%; height:2.5%; text-align:center; border:none; display:none; z-index:4">
+	<div id="errorMessage" style="position:absolute; left:0; top:56.83%; width:100%; text-align:center; display:none; z-index:4"></div>
+    
+    <!-- For the Help window ->
+    <canvas id="HelpWindow" width="800" height="600" style="position:absolute; top:8px; left:8px; z-index:110; display:none"></canvas>
+    
+    <span id="TitleText"></span>
+    <span id="TitleText2"></span>
+    
+    <!-- Question Text ->
+    <span id="myQ" class="questions" style="left:50px; top:195px; width:465px">This is a test</span>
+    <span id="myBox1" class="questions" style="left:60px; top:250px; width:450px">Test Box 1</span>
+    <span id="myBox2" class="questions" style="left:60px; top:315px; width:450px">Test Box 2</span>
+    <span id="myBox3" class="questions" style="left:60px; top:380px; width:450px">Test Box 3</span>
+    <span id="myBox4" class="questions" style="left:60px; top:445px; width:450px">Test Box 4</span>
+    
+    <!-- Multiple Guess Radio Buttons ->
+    
+    <input id="answera" class="answerRadio" name="myAnswer" type="radio" value="A" style="top:355px">
+    <label style="top:355px" class="answers">A</label>
+    <input id="answerb" class="answerRadio" name="myAnswer" type="radio" value="B" style="top:383px">
+    <label style="top:383px" class="answers">B</label>
+    <input id="answerc" class="answerRadio" name="myAnswer" type="radio" value="C" style="top:411px">
+    <label style="top:411px" class="answers">C</label>
+    <input id="answerd" class="answerRadio" name="myAnswer" type="radio" value="D" style="top:439px">
+    <label style="top:439px" class="answers">D</label>
+    <input id="dummyButton" class="answerRadio" name="myAnswer" type="radio" value="Z" style="visibility:hidden">
+    
+    <button id="SubmitTest" class="btn" onClick="submitTest_onClick()">SUBMIT TEST</button>
+	<button id="submit1" class="btn" onClick="scoreQuestion()">CONFIRM ANSWER</button>
+    <span id="submitInstructions"></span>
+    <input id="btnHelp" type="image" src="images/questionPopup_btn.png" style="position:absolute; left:743px; top:313px">
+    
+    <input id="btnEnterSurvey" type="image" src="images/img_colorbar_btn.png" style="position:absolute; left:317px; top:350px; display:none">
+    <input id="txtSurveyPassword" type="password"> -->
+    <input id="btnLogin2" type="image" src="images/img_Login.png" style="position:absolute; left:56.88%; top:50.5%; z-index:4; display:none">
+<!--    <span id="loginMsg" style="position:absolute; left:297px; top:335px; display:none"></span>
+    
+<!--    <img id="btnPrev" style="position:absolute; left:707px; top:467px" src="images/btnPrev.png" alt="Previous Question" onClick="btnPrev_onClick()" />
+    <img id="btnNext" style="position:absolute; left:742px; top:467px" src="images/btnNext.png" alt="Next Question" onClick="btnNext_onClick()" />
+    
+    <input id="btnPrintFail" type="image" src="images/img_colorbar_1.png" style="position:absolute; left:600px; top:250px; display:none">
+    <input id="btnAttrition" type="image" src="images/img_colorbar_2.png" style="position:absolute; left:600px; top:325px; display:none">
+    <input id="getResults" type="image" src="images/getResults.png" style="position:absolute; left:400px; top:500px; display:none">
+    <input id="btnPrintResults" type="image" src="images/printResults.png" style="position:absolute; left:600px; top:200px; display:none">
+    
+    <input id="CS1" class="group1" name="group1" type="radio" value="1" style="left:524px">
+    <input id="CS2" class="group1" name="group1" type="radio" value="2" style="left:554px">
+    <input id="CS3" class="group1" name="group1" type="radio" value="3" style="left:584px">
+    
+    <input id="PE1" class="group2" name="group2" type="radio" value="1" style="left:524px">
+    <input id="PE2" class="group2" name="group2" type="radio" value="2" style="left:554px">
+    <input id="PE3" class="group2" name="group2" type="radio" value="3" style="left:584px">
+     
+    <input id="CD1" class="group3" name="group3" type="radio" value="1" style="left:524px">
+    <input id="CD2" class="group3" name="group3" type="radio" value="2" style="left:554px">
+    <input id="CD3" class="group3" name="group3" type="radio" value="3" style="left:584px">
+
+    <input id="PP1" class="group4" name="group4" type="radio" value="1" style="left:524px">
+    <input id="PP2" class="group4" name="group4" type="radio" value="2" style="left:554px">
+    <input id="PP3" class="group4" name="group4" type="radio" value="3" style="left:584px">
+
+    <input id="IW1" class="group5" name="group5" type="radio" value="1" style="left:524px">
+    <input id="IW2" class="group5" name="group5" type="radio" value="2" style="left:554px">
+    <input id="IW3" class="group5" name="group5" type="radio" value="3" style="left:584px">
+
+    <input id="PM1" class="group6" name="group6" type="radio" value="1" style="left:524px">
+    <input id="PM2" class="group6" name="group6" type="radio" value="2" style="left:554px">
+    <input id="PM3" class="group6" name="group6" type="radio" value="3" style="left:584px">
+
+    <input id="PS1" class="group7" name="group7" type="radio" value="1" style="left:524px">
+    <input id="PS2" class="group7" name="group7" type="radio" value="2" style="left:554px">
+    <input id="PS3" class="group7" name="group7" type="radio" value="3" style="left:584px">
+
+    <input id="ED1" class="group8" name="group8" type="radio" value="1" style="left:524px">
+    <input id="ED2" class="group8" name="group8" type="radio" value="2" style="left:554px">
+    <input id="ED3" class="group8" name="group8" type="radio" value="3" style="left:584px">
+    
+    <textarea id="additionalInfo" style="position:absolute; left:152px; top:360px; display:none" rows="8" cols="60"></textarea>
+
+    <!-- LMS Tool ->
+	<input type="text" id="username" placeholder="UserName" />
+    <input type="password" id="password" placeholder="Password" />
+    <div id="mainselection1">
+        <select id="Get1" class="LMSSelect">
+            <option value="SELECT">SELECT</option>
+            <option value="cmi.comments">cmi.comments</option>
+            <option value="cmi.comments_from_lms">cmi.comments_from_lms</option>
+            <option value="cmi.core._children">cmi.core.children</option>
+            <option value="cmi.core.credit">cmi.core.credit</option>
+            <option value="cmi.core.entry">cmi.core.entry</option>
+            <option value="cmi.core.exit">cmi.core.exit</option>
+            <option value="cmi.core.lesson_location">cmi.core.lesson_location</option>
+            <option value="cmi.core.lesson_mode">cmi.core.lesson_mode</option>
+            <option value="cmi.core.lesson_status">cmi.core.lesson_status</option>
+            <option value="cmi.core.score._children">cmi.core.score._children</option>
+            <option value="cmi.core.score.max">cmi.core.score.max</option>
+            <option value="cmi.core.score.min">cmi.core.score.min</option>
+            <option value="cmi.core.score.raw">cmi.core.score.raw</option>
+            <option value="cmi.core.session_time">cmi.core.session_time</option>
+            <option value="cmi.core.student_id">cmi.core.student_id</option>
+            <option value="cmi.core.student_name">cmi.core.student_name</option>
+            <option value="cmi.core.total_time">cmi.core.total_time</option>
+            <option value="cmi.interactions._children">cmi.interactions._children</option>
+            <option value="cmi.interactions._count">cmi.interactions._count</option>
+            <option value="cmi.launch_data">cmi.launch_data</option>
+            <option value="cmi.student_data.children">cmi.student_data.children</option>
+            <option value="cmi.student_data.mastery_score">cmi.student_data.mastery_score</option>
+            <option value="cmi.student_data.max_time_allowed">cmi.student_data.max_time_allowed</option>
+            <option value="cmi.student_data.time_limit_action">cmi.student_data.time_limit_action</option>
+            <option value="cmi.student_preference._children">cmi.student_preference._children</option>
+            <option value="cmi.student_preference.audio">cmi.student_preference.audio</option>
+            <option value="cmi.student_preference.language">cmi.student_preference.language</option>
+            <option value="cmi.student_preference.speed">cmi.student_preference.speed</option>
+            <option value="cmi.student_preference.text">cmi.student_preference.text</option>
+            <option value="cmi.suspend_data">cmi.suspend_data</option>
+        </select>
+    </div>
+    <div id="mainselection2">
+        <select id="Set1" class="LMSSelect">
+            <option value="SELECT">SELECT</option>
+            <option value="LMSSetValue">LMSSetValue</option>
+            <option value="LMSCommit">LMSCommit</option>
+        </select>
+    </div>
+    <div id="mainselection3">
+        <select id="Set2" class="LMSSelect">
+            <option value="SELECT">SELECT</option>
+            <option value="cmi.comments">cmi.comments</option>
+            <option value="cmi.core.exit">cmi.core.exit</option>
+            <option value="cmi.core.lesson_location">cmi.core.lesson_location</option>
+            <option value="cmi.core.lesson_status">cmi.core.lesson_status</option>
+            <option value="cmi.core.score.max">cmi.core.score.max</option>
+            <option value="cmi.core.score.min">cmi.core.score.min</option>
+            <option value="cmi.core.score.raw">cmi.core.score.raw</option>
+            <option value="cmi.core.session_time">cmi.core.session_time</option>
+            <option value="cmi.student_preference.audio">cmi.student_preference.audio</option>
+            <option value="cmi.student_preference.language">cmi.student_preference.language</option>
+            <option value="cmi.student_preference.speed">cmi.student_preference.speed</option>
+            <option value="cmi.student_preference.text">cmi.student_preference.text</option>
+            <option value="cmi.suspend_data">cmi.suspend_data</option>
+        </select>
+    </div>
+    
+    <input type="text" id="Set3" style="position:absolute; width:250px; height:24px; left:250px; top:324px; z-index:100; display:none"> -->
+    
+<!--    <input type="image" id="btnLMSLogin" src="images/btn_login.png" style="position:absolute; left:284px; top:323px; z-index:100; display:none">
+<!--    <input type="image" id="GetBut" src="images/GetBut.png" style="position:absolute; left:540px; top:188px; z-index:101; display:none">
+    <input type="image" id="SetBut" src="images/SetBut.png" style="position:absolute; left:540px; top:238px; z-index:101; display:none">
+    <input type="image" id="x_button" src="images/x_button.png" style="position:absolute; left:760px; top:116px; z-index:101; display:none"> -->
+    
+    
+    <!-- This starts the test and canvas stuff -->   
+
+    <script src="scripts/testfunctions.js"></script>
+<!--    <script src="scripts/finalpopup.js"></script>
+    <script src="scripts/LMStool.js"></script>
+    <script src="scripts/helpWin.js"></script> -->
+    <script src="scripts/login.js"></script>
+    
+	<script>
+	
+		window.onload = function() {
+			
+			loadLogin();
+			
+			//$("body").on("keydown", grabLMSinput);
+			
+		}
+		
+	</script>
+-->
+</body>
+</html>
